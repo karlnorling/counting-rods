@@ -101,7 +101,7 @@ export async function run(argv: string[], io: Io = defaultIo): Promise<number> {
       background: values.background,
       gap: optionalNumber(values.gap, '--gap'),
       zero: oneOf(values['zero'], '--zero', ['circle', 'blank'] as const),
-      traditionalColors: values['traditional-colors'],
+      traditionalColors: values['traditional-colors'] ? true : undefined,
     };
     const quality = optionalNumber(values.quality, '--quality');
 
