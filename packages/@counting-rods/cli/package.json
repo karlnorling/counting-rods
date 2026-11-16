@@ -1,0 +1,60 @@
+{
+  "name": "@counting-rods/cli",
+  "version": "0.0.0",
+  "description": "Draw Chinese counting rod numerals from the command line: SVG, PNG, JPEG or WebP",
+  "keywords": [
+    "abacus",
+    "chinese",
+    "cli",
+    "counting-rods",
+    "decimal",
+    "number",
+    "numerals",
+    "png",
+    "rod-numerals",
+    "suanchou",
+    "svg"
+  ],
+  "homepage": "https://karlnorling.github.io/counting-rods/",
+  "bugs": {
+    "url": "https://github.com/karlnorling/counting-rods/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Karl Norling",
+    "url": "https://github.com/karlnorling"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karlnorling/counting-rods.git",
+    "directory": "packages/@counting-rods/cli"
+  },
+  "bin": {
+    "counting-rods": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "!dist/**/*.tsbuildinfo",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "prepack": "yarn build"
+  },
+  "dependencies": {
+    "@counting-rods/core": "workspace:^",
+    "@counting-rods/raster": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  },
+  "engines": {
+    "node": ">= 20.0.0"
+  }
+}

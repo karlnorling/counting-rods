@@ -1,0 +1,32 @@
+---
+title: '@counting-rods/cli'
+description: Draw numbers as Chinese counting rod numerals from the command line.
+---
+
+```sh
+npx @counting-rods/cli 1993 > 1993.svg
+npx @counting-rods/cli 3.14159 -o pi.webp --size 200
+npx @counting-rods/cli -42 -o minus.png --traditional-colors
+```
+
+Installed globally with `npm install -g @counting-rods/cli`, the command is `counting-rods`. The output format comes from the file extension. Without `--output`, it prints SVG.
+
+| Option                     | Notes                                                                     |
+| -------------------------- | ------------------------------------------------------------------------- | ---------------------------------------- |
+| `-o, --output <file>`      | `.svg`, `.png`, `.jpg`, `.jpeg` or `.webp`.                               |
+| `-s, --size <px>`          | Image height in pixels. Default 100.                                      |
+| `-c, --color <color>`      | Colour or CSS gradient. Default `currentColor` for SVG, black for images. |
+| `-b, --background <color>` | Background colour or CSS gradient. Default transparent, white for JPEG.   |
+| `-g, --gap <n>`            | Space between places. Default 18.                                         |
+| `--zero <circle            | blank>`                                                                   | Draw zero as a circle or leave it blank. |
+| `--traditional-colors`     | Red rods for positive numbers, black for negative.                        |
+| `-q, --quality <1-100>`    | JPEG and WebP quality.                                                    |
+
+Gradients use CSS syntax. Quote them for the shell:
+
+```sh
+counting-rods 1234567 -o rainbow.png \
+  -c 'linear-gradient(to right, #e03131, #f76707, #fab005, #40c057, #228be6, #7048e8, #be4bdb)'
+```
+
+Exits with `1` when the number can't be drawn and `2` for a usage error.
