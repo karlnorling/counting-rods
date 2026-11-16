@@ -1,0 +1,70 @@
+---
+title: How numbers are drawn
+description: Upright and flat rods, the places they alternate between, and how this library draws zero, decimals and negatives.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Glyph from '../../components/Glyph.astro';
+import DigitChart from '../../components/DigitChart.astro';
+
+Counting rods were short sticks of bamboo or bone laid out on a counting board. Chinese mathematicians calculated with them for around two thousand years, and wrote numbers down by drawing the rods.
+
+## The digits
+
+One to five are that many parallel rods. Six to nine put one crossing rod, worth five, above one to four parallel rods.
+
+Units, hundreds and every even place use **upright rods**:
+
+<DigitChart place={0} />
+
+Tens, thousands and every odd place turn them over and use **flat rods**:
+
+<DigitChart place={1} />
+
+## Places
+
+Places run left to right, most significant first. Alternating the orientation keeps neighbouring digits apart: 11 is a flat rod and then an upright one, so it can't be read as 2.
+
+<div class="row">
+  <Glyph value={11} caption="11" />
+  <Glyph value={1993} caption="1993" />
+  <Glyph value={76} caption="76" />
+  <Glyph value={2026} caption="2026" />
+</div>
+
+## Zero
+
+The earliest rod numerals left an empty place for zero. From the 13th century, mathematicians such as Qin Jiushao drew a circle instead. This library draws the circle by default; `zero: 'blank'` leaves the gap.
+
+<div class="row">
+  <Glyph value={305} caption="305" />
+  <Glyph value={305} zero="blank" caption="305, blank zero" />
+</div>
+
+## Negatives
+
+Counting boards used red rods for positive numbers and black rods for negative ones. In writing, the Song-dynasty mathematician Li Ye struck a diagonal rod across the last digit instead. This library draws the diagonal rod, and `traditionalColors` adds the red and black.
+
+<div class="row">
+  <Glyph value={-42} caption="-42" />
+  <Glyph value={42} traditionalColors caption="42, traditional" />
+  <Glyph value={-42} traditionalColors caption="-42, traditional" />
+</div>
+
+## Decimals
+
+Rod numerals marked fractions with a unit word under the units digit. This library uses a dot on the baseline instead, and the fraction places keep alternating.
+
+<div class="row">
+  <Glyph value="3.14159" caption="3.14159" />
+  <Glyph value="0.05" caption="0.05" />
+</div>
+
+<Aside>
+  The same alternating rods survive as Suzhou numerals, still seen on market price tags in Hong
+  Kong.
+</Aside>
+
+<style>{`
+  .row { display: flex; flex-wrap: wrap; gap: 2rem; align-items: end; margin-block: 1.5rem; }
+`}</style>

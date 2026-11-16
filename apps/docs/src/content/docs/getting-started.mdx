@@ -1,0 +1,69 @@
+---
+title: Getting started
+description: Install the package you need and draw your first counting-rod numeral.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Pick the package for where you render:
+
+| Package                                                    | Use it for                                                                |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [`@counting-rods/core`](/counting-rods/packages/core/)     | SVG strings in any JavaScript runtime, browser included. No dependencies. |
+| [`@counting-rods/raster`](/counting-rods/packages/raster/) | PNG, JPEG or WebP in Node. Uses sharp.                                    |
+| [`@counting-rods/cli`](/counting-rods/packages/cli/)       | Files from the terminal or scripts.                                       |
+
+## SVG
+
+<Tabs syncKey="pm">
+  <TabItem label="npm">
+
+```sh
+npm install @counting-rods/core
+```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+```sh
+yarn add @counting-rods/core
+```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+```sh
+pnpm add @counting-rods/core
+```
+
+  </TabItem>
+</Tabs>
+
+```js
+import { toSvg } from '@counting-rods/core';
+
+document.querySelector('#year').innerHTML = toSvg(new Date().getFullYear(), { size: 120 });
+```
+
+The SVG uses `currentColor` by default, so it takes the colour of the text around it.
+
+## Images
+
+```sh
+npm install @counting-rods/raster
+```
+
+```js
+import { toImage } from '@counting-rods/raster';
+import { writeFile } from 'node:fs/promises';
+
+await writeFile('1993.webp', await toImage(1993, { format: 'webp', size: 400 }));
+```
+
+## Command line
+
+```sh
+npx @counting-rods/cli 1993 -o 1993.png --size 200
+```
+
+Not sure what a number will look like? Try it in the [playground](/counting-rods/playground/).

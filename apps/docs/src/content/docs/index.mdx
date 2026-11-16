@@ -1,0 +1,56 @@
+---
+title: Counting Rods
+description: Render any number as Chinese counting rod numerals in SVG, PNG, JPEG or WebP, from code or the command line.
+template: splash
+hero:
+  tagline: >-
+    Draw any number the way Chinese mathematicians did on their counting boards: bundles of rods, upright and flat in turn. SVG with zero dependencies, plus PNG, JPEG and WebP.
+  actions:
+    - text: Open the playground
+      link: /counting-rods/playground/
+      icon: pencil
+    - text: Get started
+      link: /counting-rods/getting-started/
+      icon: right-arrow
+      variant: secondary
+    - text: GitHub
+      link: https://github.com/karlnorling/counting-rods
+      icon: github
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import Glyph from '../../components/Glyph.astro';
+import ColourExamples from '../../components/ColourExamples.astro';
+
+<div class="examples">
+  <Glyph value={1993} caption="1993" />
+  <Glyph value={11} caption="11" />
+  <Glyph value={305} caption="305" />
+  <Glyph value={'3.14159'} caption="3.14159" />
+  <Glyph value={-42} caption="-42" />
+</div>
+
+<ColourExamples />
+
+<CardGrid>
+  <Card title="Try any number" icon="pencil">
+    The [playground](/counting-rods/playground/) draws whatever you type, breaks it into base-10
+    digits, and lets you download SVG, PNG, JPEG or WebP.
+  </Card>
+  <Card title="Zero, fractions and negatives" icon="add-document">
+    Zero is a circle or a gap, a dot marks the decimal point, and negatives get a diagonal rod or
+    black rods. [See how](/counting-rods/how-it-works/).
+  </Card>
+  <Card title="Zero dependencies" icon="seti:svg">
+    `@counting-rods/core` turns a number into an SVG string in any JavaScript runtime.
+  </Card>
+  <Card title="Images and CLI" icon="seti:image">
+    `@counting-rods/raster` renders PNG, JPEG and WebP with sharp, and `@counting-rods/cli` does it
+    from the terminal.
+  </Card>
+</CardGrid>
+
+<style>{`
+  .examples { display: flex; flex-wrap: wrap; justify-content: center; align-items: end; gap: 2rem; margin-block: 1rem 2.5rem; }
+`}</style>

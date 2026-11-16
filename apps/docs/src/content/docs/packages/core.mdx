@@ -1,0 +1,86 @@
+---
+title: '@counting-rods/core'
+description: Render numbers as Chinese counting rod numerals in SVG, with no dependencies.
+---
+
+import Glyph from '../../../components/Glyph.astro';
+
+```sh
+npm install @counting-rods/core
+```
+
+## `toSvg(value, options?)`
+
+Returns an SVG string. `value` can be a `number`, `bigint` or decimal `string`.
+
+```js
+import { toSvg } from '@counting-rods/core';
+
+toSvg(1993);
+toSvg('3.14159', { size: 200, color: '#7a2e0e', background: 'white' });
+```
+
+| Option              | Default        | Notes                                                                                                                             |
+| ------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `size`              | `100`          | Image height in pixels. The width follows from the number of places.                                                              |
+| `color`             | `currentColor` | Colour of the rods. Takes a colour or a gradient.                                                                                 |
+| `background`        | none           | Colour or gradient behind the numeral.                                                                                            |
+| `gap`               | `18`           | Space between places, in viewBox units. A rod is 60 long.                                                                         |
+| `padding`           | `20`           | Space around the numeral, in viewBox units.                                                                                       |
+| `strokeWidth`       | `7`            | Rod thickness in viewBox units, where a rod is 60 long.                                                                           |
+| `zero`              | `circle`       | `circle` draws zero as 〇. `blank` leaves the place empty, as the earliest rod numerals did.                                      |
+| `traditionalColors` | `false`        | Red rods for positive numbers and black for negative, as on a counting board. Replaces `currentColor`, but not a colour you pass. |
+| `title`             | the number     | Accessible name. `false` leaves it out and sets `aria-hidden`.                                                                    |
+
+Throws a `TypeError` for text that isn't a decimal number and a `RangeError` for `NaN`, `Infinity` or a bad option.
+
+## Colours and gradients
+
+`color` and `background` take any CSS colour, or a gradient: `linear-gradient()`, `radial-gradient()` and their `repeating-` forms. A gradient spans the whole image, so a long number runs through every colour once.
+
+```js
+toSvg('1234567', {
+  color: 'linear-gradient(to right, #e03131, #f76707, #fab005, #40c057, #228be6, #7048e8, #be4bdb)',
+});
+
+toSvg('2026.1225', {
+  color: 'repeating-linear-gradient(135deg, #e03131 0 3%, #ffffff 3% 6%)',
+  background: 'radial-gradient(#2b8a3e, #0b3d20)',
+});
+```
+
+<div class="not-content" style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:end">
+  <Glyph
+    value={'1234567'}
+    color={
+      'linear-gradient(to right, #e03131, #f76707, #fab005, #40c057, #228be6, #7048e8, #be4bdb)'
+    }
+    caption="Rainbow"
+  />
+  <Glyph
+    value={'2026.1225'}
+    color={'repeating-linear-gradient(135deg, #e03131 0 3%, #ffffff 3% 6%)'}
+    background={'radial-gradient(#2b8a3e, #0b3d20)'}
+    caption="Christmas"
+  />
+</div>
+
+Stops take percentage positions, and a stop with two positions (`red 0 3%`) makes a hard-edged band. Gradients can also be objects: `{ type: 'linear', angle: 90, stops: ['red', { color: 'blue', offset: 0.8 }] }`. `parseGradient(css)` turns a CSS gradient string into that form.
+
+## Lower level
+
+```js
+import { BASE, digitSvg, format, parse } from '@counting-rods/core';
+
+parse(305); // { negative: false, integer: [3, 0, 5], fraction: [] }
+orientation(1); // 'horizontal': tens lie flat
+digitSvg(7, 1); // seven in the tens place: an upright rod over two flat ones
+BASE; // 10
+```
+
+- `parse(value)` → `{ negative, integer, fraction }`: the base-10 digits that get drawn, most significant first.
+- `format(parsed)` → the canonical decimal string.
+- `digitSvg(digit, place?, options?)` → one digit from 0 to 9 on its own. `place` is the power of ten, which sets whether the rods stand upright or lie flat.
+- `BASE` → `10`.
+- `orientation(place)` → `vertical` for even powers of ten, `horizontal` for odd ones.
+- `digitRods(digit, orientation)` → the rods of one digit as line segments, for drawing somewhere else.
